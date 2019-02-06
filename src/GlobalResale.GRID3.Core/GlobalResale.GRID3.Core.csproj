@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RootNamespace>GlobalResale.GRID3.Core</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NHibernate" Version="5.2.3" />
+    <PackageReference Include="NHibernate.Caches.SysCache" Version="5.5.1" />
+    <PackageReference Include="NHibernate.Glimpse" Version="3.3.3.40011" />
+    <PackageReference Include="NHibernate.SetForNet4" Version="1.0.3" />
+  </ItemGroup>
+
+</Project>

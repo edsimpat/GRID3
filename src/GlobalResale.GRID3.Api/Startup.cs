@@ -62,7 +62,7 @@ namespace GlobalResale.GRID3.Api
             services.AddMediatR();
             services.AddAutoMapper();
 
-            services.AddSingleton(factory =>
+            services.AddSingleton(provider =>
             {
                 return Fluently
                     .Configure()
@@ -77,10 +77,9 @@ namespace GlobalResale.GRID3.Api
                     .BuildSessionFactory();
             });
 
-            services.AddScoped(factory =>
-                factory
-                    .GetServices<NHibernate.ISessionFactory>()
-                    .First()
+            services.AddScoped(provider =>
+                provider
+                    .GetService<NHibernate.ISessionFactory>()
                     .OpenSession()
             );
 

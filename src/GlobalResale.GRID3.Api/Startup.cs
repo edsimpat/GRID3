@@ -31,7 +31,7 @@ namespace GlobalResale.GRID3.Api
             {
                 c.SwaggerDoc("v1", new Info
                 {
-                    Title = "Sandbox API",
+                    Title = "GRID 3.0 API",
                     Version = "v1",
                     License = new License
                     {

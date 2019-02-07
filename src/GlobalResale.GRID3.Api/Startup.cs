@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
 using System.Text;
 using AutoMapper;
+using FluentNHibernate.Cfg;
 using GlobalResale.GRID3.Api.Infrastructure;
+using GlobalResale.GRID3.Core.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -57,6 +61,28 @@ namespace GlobalResale.GRID3.Api
 
             services.AddMediatR();
             services.AddAutoMapper();
+
+            services.AddSingleton(factory =>
+            {
+                return Fluently
+                    .Configure()
+                    .Database(() =>
+                    {
+                        return FluentNHibernate.Cfg.Db.MsSqlConfiguration
+                            .MsSql2012
+                            .ShowSql()
+                            .ConnectionString(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+                    })
+                    .Mappings(m => m.FluentMappings.AddFromAssemblyOf<PersistentObjectMap>())
+                    .BuildSessionFactory();
+            });
+
+            services.AddScoped(factory =>
+                factory
+                    .GetServices<NHibernate.ISessionFactory>()
+                    .First()
+                    .OpenSession()
+            );
 
             var sharedKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("JwtSettings")["JwtKey"]));
             var issuerAudience = Configuration.GetSection("JwtSettings")["Domain"];

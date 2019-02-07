@@ -24,4 +24,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GlobalResale.GRID3.Core\GlobalResale.GRID3.Core.csproj" />
+    <ProjectReference Include="..\GlobalResale.GRID3.Database\GlobalResale.GRID3.Database.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Core.Uni
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Database.UnitTests", "GlobalResale.GRID3.Database.UnitTests\GlobalResale.GRID3.Database.UnitTests.csproj", "{2F5065FD-94F3-4122-BF84-D22CEACE003B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Web", "GlobalResale.GRID3.Web\GlobalResale.GRID3.Web.csproj", "{1CD85A61-A4D1-469B-BB35-74407A7BF846}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{2F5065FD-94F3-4122-BF84-D22CEACE003B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F5065FD-94F3-4122-BF84-D22CEACE003B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F5065FD-94F3-4122-BF84-D22CEACE003B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CD85A61-A4D1-469B-BB35-74407A7BF846}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CD85A61-A4D1-469B-BB35-74407A7BF846}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CD85A61-A4D1-469B-BB35-74407A7BF846}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CD85A61-A4D1-469B-BB35-74407A7BF846}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

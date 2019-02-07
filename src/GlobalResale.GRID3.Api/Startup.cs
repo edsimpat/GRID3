@@ -113,7 +113,7 @@ namespace GlobalResale.GRID3.Api
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sandbox API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "GRID 3.0");
                 c.RoutePrefix = string.Empty;
             });
 

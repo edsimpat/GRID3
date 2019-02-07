@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.UI", "GlobalResale.GRID3.UI\GlobalResale.GRID3.UI.csproj", "{3B02355F-D85E-42F6-9E26-11904068292B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Core", "GlobalResale.GRID3.Core\GlobalResale.GRID3.Core.csproj", "{5FDD1504-815E-420F-8261-8204874EBF9D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Common", "GlobalResale.GRID3.Common\GlobalResale.GRID3.Common.csproj", "{3B8769D9-C92A-4676-8A39-18035A97477A}"
@@ -25,15 +23,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Database
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.UI.IntegrationTests", "GlobalResale.GRID3.UI.IntegrationTests\GlobalResale.GRID3.UI.IntegrationTests.csproj", "{2D594BE1-899E-44BE-B91A-599D838F77B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalResale.GRID3.Api.UnitTests", "GlobalResale.GRID3.Api.UnitTests\GlobalResale.GRID3.Api.UnitTests.csproj", "{D39E1414-5F4E-478E-A6CC-DB43152D576A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Api.UnitTests", "GlobalResale.GRID3.Api.UnitTests\GlobalResale.GRID3.Api.UnitTests.csproj", "{D39E1414-5F4E-478E-A6CC-DB43152D576A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalResale.GRID3.Common.UnitTests", "GlobalResale.GRID3.Common.UnitTests\GlobalResale.GRID3.Common.UnitTests.csproj", "{DA779B3F-2E57-4ABC-A91E-A181747EAF18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Common.UnitTests", "GlobalResale.GRID3.Common.UnitTests\GlobalResale.GRID3.Common.UnitTests.csproj", "{DA779B3F-2E57-4ABC-A91E-A181747EAF18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalResale.GRID3.Core.UnitTests", "GlobalResale.GRID3.Core.UnitTests\GlobalResale.GRID3.Core.UnitTests.csproj", "{890121A8-33F7-480D-BC11-15D229C50398}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Core.UnitTests", "GlobalResale.GRID3.Core.UnitTests\GlobalResale.GRID3.Core.UnitTests.csproj", "{890121A8-33F7-480D-BC11-15D229C50398}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalResale.GRID3.Database.UnitTests", "GlobalResale.GRID3.Database.UnitTests\GlobalResale.GRID3.Database.UnitTests.csproj", "{2F5065FD-94F3-4122-BF84-D22CEACE003B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Database.UnitTests", "GlobalResale.GRID3.Database.UnitTests\GlobalResale.GRID3.Database.UnitTests.csproj", "{2F5065FD-94F3-4122-BF84-D22CEACE003B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalResale.GRID3.UI.UnitTests", "GlobalResale.GRID3.UI.UnitTests\GlobalResale.GRID3.UI.UnitTests.csproj", "{6E198A37-04A0-44B0-9C2D-3BEADC718C37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.UI.UnitTests", "GlobalResale.GRID3.UI.UnitTests\GlobalResale.GRID3.UI.UnitTests.csproj", "{6E198A37-04A0-44B0-9C2D-3BEADC718C37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +39,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3B02355F-D85E-42F6-9E26-11904068292B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3B02355F-D85E-42F6-9E26-11904068292B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3B02355F-D85E-42F6-9E26-11904068292B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3B02355F-D85E-42F6-9E26-11904068292B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5FDD1504-815E-420F-8261-8204874EBF9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5FDD1504-815E-420F-8261-8204874EBF9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FDD1504-815E-420F-8261-8204874EBF9D}.Release|Any CPU.ActiveCfg = Release|Any CPU

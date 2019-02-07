@@ -1,5 +1,7 @@
 ﻿using FluentNHibernate.Mapping;
-namespace GlobalResale.GRID3.Core.Domain
+using GlobalResale.GRID3.Core.Domain;
+
+namespace GlobalResale.GRID3.Database
 {
     public class PersistentObjectMap : ClassMap<PersistentObject>
     {

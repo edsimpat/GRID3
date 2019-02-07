@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Text;
 using AutoMapper;
 using FluentNHibernate.Cfg;
 using GlobalResale.GRID3.Api.Infrastructure;
-using GlobalResale.GRID3.Core.Domain;
+using GlobalResale.GRID3.Database;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;

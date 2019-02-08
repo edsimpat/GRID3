@@ -13,27 +13,27 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Database
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestProjects", "TestProjects", "{27714936-2B90-4F55-9747-69D669B714B9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Api.IntegrationTests", "GlobalResale.GRID3.Api.IntegrationTests\GlobalResale.GRID3.Api.IntegrationTests.csproj", "{638E27AB-A9C4-4616-85A0-A4DCCF7F9B32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Api.IntegrationTests", "TestProjects\GlobalResale.GRID3.Api.IntegrationTests\GlobalResale.GRID3.Api.IntegrationTests.csproj", "{638E27AB-A9C4-4616-85A0-A4DCCF7F9B32}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Common.IntegrationTests", "GlobalResale.GRID3.Common.IntegrationTests\GlobalResale.GRID3.Common.IntegrationTests.csproj", "{05C38D52-D7FE-491D-BB74-DA378C64F541}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Common.IntegrationTests", "TestProjects\GlobalResale.GRID3.Common.IntegrationTests\GlobalResale.GRID3.Common.IntegrationTests.csproj", "{05C38D52-D7FE-491D-BB74-DA378C64F541}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Core.IntegrationTests", "GlobalResale.GRID3.Core.IntegrationTests\GlobalResale.GRID3.Core.IntegrationTests.csproj", "{6968BBDD-E66C-4517-8017-F313FB5C0172}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Core.IntegrationTests", "TestProjects\GlobalResale.GRID3.Core.IntegrationTests\GlobalResale.GRID3.Core.IntegrationTests.csproj", "{6968BBDD-E66C-4517-8017-F313FB5C0172}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Database.IntegrationTests", "GlobalResale.GRID3.Database.IntegrationTests\GlobalResale.GRID3.Database.IntegrationTests.csproj", "{D44983DE-BA50-41F6-BC31-3E4E0E5E12E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Database.IntegrationTests", "TestProjects\GlobalResale.GRID3.Database.IntegrationTests\GlobalResale.GRID3.Database.IntegrationTests.csproj", "{D44983DE-BA50-41F6-BC31-3E4E0E5E12E4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Api.UnitTests", "GlobalResale.GRID3.Api.UnitTests\GlobalResale.GRID3.Api.UnitTests.csproj", "{D39E1414-5F4E-478E-A6CC-DB43152D576A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Api.UnitTests", "TestProjects\GlobalResale.GRID3.Api.UnitTests\GlobalResale.GRID3.Api.UnitTests.csproj", "{D39E1414-5F4E-478E-A6CC-DB43152D576A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Common.UnitTests", "GlobalResale.GRID3.Common.UnitTests\GlobalResale.GRID3.Common.UnitTests.csproj", "{DA779B3F-2E57-4ABC-A91E-A181747EAF18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Common.UnitTests", "TestProjects\GlobalResale.GRID3.Common.UnitTests\GlobalResale.GRID3.Common.UnitTests.csproj", "{DA779B3F-2E57-4ABC-A91E-A181747EAF18}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Core.UnitTests", "GlobalResale.GRID3.Core.UnitTests\GlobalResale.GRID3.Core.UnitTests.csproj", "{890121A8-33F7-480D-BC11-15D229C50398}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Core.UnitTests", "TestProjects\GlobalResale.GRID3.Core.UnitTests\GlobalResale.GRID3.Core.UnitTests.csproj", "{890121A8-33F7-480D-BC11-15D229C50398}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Database.UnitTests", "GlobalResale.GRID3.Database.UnitTests\GlobalResale.GRID3.Database.UnitTests.csproj", "{2F5065FD-94F3-4122-BF84-D22CEACE003B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Database.UnitTests", "TestProjects\GlobalResale.GRID3.Database.UnitTests\GlobalResale.GRID3.Database.UnitTests.csproj", "{2F5065FD-94F3-4122-BF84-D22CEACE003B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Web", "GlobalResale.GRID3.Web\GlobalResale.GRID3.Web.csproj", "{1CD85A61-A4D1-469B-BB35-74407A7BF846}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Web", "TestProjects\GlobalResale.GRID3.Web\GlobalResale.GRID3.Web.csproj", "{1CD85A61-A4D1-469B-BB35-74407A7BF846}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalResale.GRID3.Web.UnitTests", "GlobalResale.GRID3.Web.UnitTests\GlobalResale.GRID3.Web.UnitTests.csproj", "{FCD27E89-5A3A-496D-ACCD-B9B56BC0612C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalResale.GRID3.Web.UnitTests", "TestProjects\GlobalResale.GRID3.Web.UnitTests\GlobalResale.GRID3.Web.UnitTests.csproj", "{FCD27E89-5A3A-496D-ACCD-B9B56BC0612C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalResale.GRID3.Web.IntegrationTests", "GlobalResale.GRID3.Web.IntegrationTests\GlobalResale.GRID3.Web.IntegrationTests.csproj", "{76DAE1F9-EC61-4E53-8A74-040A481CF89C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalResale.GRID3.Web.IntegrationTests", "TestProjects\GlobalResale.GRID3.Web.IntegrationTests\GlobalResale.GRID3.Web.IntegrationTests.csproj", "{76DAE1F9-EC61-4E53-8A74-040A481CF89C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

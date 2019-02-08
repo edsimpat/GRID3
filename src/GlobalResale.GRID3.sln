@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Core.Uni
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Database.UnitTests", "TestProjects\GlobalResale.GRID3.Database.UnitTests\GlobalResale.GRID3.Database.UnitTests.csproj", "{2F5065FD-94F3-4122-BF84-D22CEACE003B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Web", "TestProjects\GlobalResale.GRID3.Web\GlobalResale.GRID3.Web.csproj", "{1CD85A61-A4D1-469B-BB35-74407A7BF846}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalResale.GRID3.Web", "GlobalResale.GRID3.Web\GlobalResale.GRID3.Web.csproj", "{1CD85A61-A4D1-469B-BB35-74407A7BF846}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalResale.GRID3.Web.UnitTests", "TestProjects\GlobalResale.GRID3.Web.UnitTests\GlobalResale.GRID3.Web.UnitTests.csproj", "{FCD27E89-5A3A-496D-ACCD-B9B56BC0612C}"
 EndProject

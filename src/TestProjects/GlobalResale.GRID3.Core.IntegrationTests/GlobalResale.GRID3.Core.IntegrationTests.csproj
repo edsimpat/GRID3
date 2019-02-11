@@ -15,4 +15,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\GlobalResale.GRID3.Core\GlobalResale.GRID3.Core.csproj" />
+  </ItemGroup>
+
 </Project>

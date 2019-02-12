@@ -14,18 +14,16 @@ properties {
 	Write-Host "Release Number: $ReleaseNumber"
 	Write-Host "**********************************************************************"
 	
-	$OctopusEnvironment =  $env:OCTOPUS_ENVIRONMENT
+	$OctopusEnvironment = $env:OCTOPUS_ENVIRONMENT
 	$OctopusProjectName = $env:OCTOPUS_PROJECT_NAME
 
     $base_dir = resolve-path .
     $publish_dir = "$base_dir\publish"
 	$build_dir = "$base_dir\build"
 	$package_dir = "$build_dir\latestVersion"
-	$package_file = "$package_dir\" + $project_name + "_Package.zip"
 	$source_dir = "$base_dir\src"
 	$test_dir = "$build_dir\test"
 	$result_dir = "$build_dir\results"
-	$nuget_packages_dir = "$source_dir\packages"
 	
     $db_server = if ($env:db_server) { $env:db_server } else { ".\SqlExpress" }
 	$db_username = if ($env:db_username) { $env:db_username } else { "" }
@@ -63,28 +61,26 @@ task uad -depends UpdateAllDatabases
 task rad -depends RebuildAllDatabases
 task tq -depends RunIntegrationTestsQuickly
 task tt -depends RunIntegrationTestsThoroughly
-task unit -depends RunAllUnitTests
 task quick -depends QuickRebuild
 
 task help {
 	Write-Help-Header
 	Write-Help-Section-Header "Comprehensive Building"
 	Write-Help-For-Alias "(default)" "Intended for first build or when you want a fresh, clean local copy"
-	Write-Help-For-Alias "dev" "Optimized for local dev; Most noteably UPDATES databases instead of REBUILDING"
+	Write-Help-For-Alias "dev" "Optimized for local dev; Most notably UPDATES databases instead of REBUILDING them"
 	Write-Help-For-Alias "ci" "Continuous Integration build (long and thorough) with packaging"
 	Write-Help-For-Alias "quick" "Compile and update the database, but skip tests"
 	Write-Help-Section-Header "Database Maintence"
 	Write-Help-For-Alias "uad" "Update All the Databases to the latest version (all db used for the app, that is)"
 	Write-Help-For-Alias "rad" "Rebuild All the Databases to the latest version from scratch (useful while working on the schema)"
 	Write-Help-Section-Header "Running Tests"
-	Write-Help-For-Alias "unit" "All unit tests"
 	Write-Help-For-Alias "tq" "Unit and Test Integration Quickly, aka, UPDATE databases before testing"
 	Write-Help-For-Alias "tt" "Unit and Test Integration Thoroughly, aka, REBUILD databases before testing (useful while working on the schema)"
 	Write-Help-Footer
 	exit 0
 }
 
-task InitialPrivateBuild -depends Clean, Compile, RebuildAllDatabases, RunAllUnitTests, RunIntegrationTestsThoroughly, WarnSlowBuild
+task InitialPrivateBuild -depends Clean, Compile, RebuildAllDatabases, RunIntegrationTestsThoroughly, WarnSlowBuild
 task DeveloperBuild -depends SetDebugBuild, Clean, Compile, UpdateAllDatabases
 task IntegrationBuild -depends SetReleaseBuild, CommonAssemblyInfo, Clean, Compile, PublishApiAndWebProjects, CreateOctopusRelease
 task QuickRebuild -depends SetDebugBuild, Clean, Compile, UpdateAllDatabases
@@ -98,18 +94,18 @@ task SetReleaseBuild {
 }
 
 task RebuildAllDatabases {
-    $all_database_info.GetEnumerator() | %{ 
+    $all_database_info.GetEnumerator() | ForEach-Object{ 
 		Write-Host $_.Key
-		deploy-database "Rebuild" $db_server $_.Key $_.Value
+		deploy_database "Rebuild" $db_server $_.Key $_.Value
 	}
 }
 
 task UpdateAllDatabases {
-    $all_database_info.GetEnumerator() | %{ deploy-database "Update" $db_server $_.Key $_.Value}
+    $all_database_info.GetEnumerator() | ForEach-Object{ deploy_database "Update" $db_server $_.Key $_.Value}
 }
 
 task CommonAssemblyInfo {
-    create-commonAssemblyInfo "$ReleaseNumber" $project_name "$source_dir\SharedAssemblyInfo.cs"
+    create_SharedAssemblyInfo_class "$ReleaseNumber" $project_name "$source_dir\SharedAssemblyInfo.cs"
 }
 
 task CopyAssembliesForTest -Depends Compile {
@@ -118,16 +114,12 @@ task CopyAssembliesForTest -Depends Compile {
 
 task RunIntegrationTestsThoroughly -Depends CopyAssembliesForTest, RebuildAllDatabases {
     update_test_config
-    $test_assembly_patterns_integration | %{ run_tests $_ }
+    $test_assembly_patterns_integration | ForEach-Object{ run_tests $_ }
 }
 
 task RunIntegrationTestsQuickly -Depends CopyAssembliesForTest, UpdateAllDatabases {
     update_test_config
-    $test_assembly_patterns_integration | %{ run_tests $_ }
-}
-
-task RunAllUnitTests -Depends CopyAssembliesForTest {
-    $test_assembly_patterns_unit | %{ run_tests $_ }
+    $test_assembly_patterns_integration | ForEach-Object{ run_tests $_ }
 }
 
 task Compile -depends Clean, CommonAssemblyInfo { 
@@ -136,10 +128,13 @@ task Compile -depends Clean, CommonAssemblyInfo {
 }
 
 task Clean {
-    delete_file $package_file
-    delete_directory $build_dir
+	delete_directory $publish_dir
+	delete_directory $build_dir
+	create_directory $publish_dir
+	create_directory $package_dir
     create_directory $test_dir 
-    create_directory $result_dir
+	create_directory $result_dir
+
 	Write-Host $source_dir
 	Write-Host $project_name.sln
     exec { dotnet clean $source_dir\$project_name.sln --configuration $project_config }
@@ -147,7 +142,6 @@ task Clean {
 
 task PublishApiAndWebProjects{
 	Write-Host "Release Number: $ReleaseNumber"
-    # exec { dotnet build $source_dir\$project_name.sln /t:build /p:RunOctoPack=true /v:q /p:Configuration=$project_config /p:Platform="Any CPU" /nologo /p:OctoPackPackageVersion=$ReleaseNumber /p:OctoPackPublishPackageToHttp=$octopus_Publish_URL /p:OctoPackPublishApiKey=$octopus_API_key  }
     exec { dotnet publish $source_dir\$project_name.Web\$project_name.Web.csproj --configuration $project_config --output "$publish_dir\Web" }
     exec { dotnet publish $source_dir\$project_name.Api\$project_name.Api.csproj --configuration $project_config --output "$publish_dir\Api" }
 }
@@ -201,7 +195,7 @@ function Write-Help-For-Alias($alias,$description) {
 # -------------------------------------------------------------------------------------------------------------
 # generalized functions 
 # -------------------------------------------------------------------------------------------------------------
-function deploy-database($action,$server,$db_name,$scripts_dir,$env) {
+function deploy_database($action,$server,$db_name,$scripts_dir,$env) {
     if (!$env) {
         $env = "LOCAL"
         Write-Host "RoundhousE environment variable is not specified... defaulting to 'LOCAL'"
@@ -244,7 +238,7 @@ function deploy-database($action,$server,$db_name,$scripts_dir,$env) {
 function run_tests([string]$pattern) {
     
     $items = Get-ChildItem -Path $test_dir $pattern
-    $items | %{ run_xunit $_.Name }
+    $items | ForEach-Object{ run_xunit $_.Name }
 }
 
 function update_test_config() {
@@ -267,7 +261,7 @@ function global:delete_file($file) {
 }
 
 function global:delete_directory($directory_name) {
-  rd $directory_name -recurse -force  -ErrorAction SilentlyContinue | out-null
+  Remove-Item $directory_name -recurse -force  -ErrorAction SilentlyContinue | out-null
 }
 
 function global:create_directory($directory_name) {
@@ -278,11 +272,11 @@ function global:run_xunit ($test_assembly) {
 	$assembly_to_test = $test_dir + "\" + $test_assembly
 	$results_output = $result_dir + "\" + $test_assembly + ".xml"
     write-host "Running XUnit Tests in: " $test_assembly
-    exec { dotnet test --output $assembly_to_test --results-directory $results_output }
+    exec { dotnet vstest --tests $assembly_to_test /logger:trx $results_output }
 }
 
 function global:Copy_and_flatten ($source,$include,$dest) {
-	Get-ChildItem $source -include $include -r | cp -dest $dest
+	Get-ChildItem $source -include $include -r | Copy-Item -dest $dest
 }
 
 function global:copy_all_assemblies_for_test($destination){
@@ -295,7 +289,7 @@ function global:copy_all_assemblies_for_test($destination){
 	Copy_and_flatten $bin_dir_match_pattern @("*.aff", "*.dic") $dictionaryDestination
 }
 
-function global:create-commonAssemblyInfo($version,$applicationName,$filename) {
+function global:create_SharedAssemblyInfo_class($version,$applicationName,$filename) {
 "using System.Reflection;
 
 // Version information for an assembly consists of the following four values:

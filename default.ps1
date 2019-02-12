@@ -63,7 +63,6 @@ task uad -depends UpdateAllDatabases
 task rad -depends RebuildAllDatabases
 task tq -depends RunIntegrationTestsQuickly
 task tt -depends RunIntegrationTestsThoroughly
-task aztt -depends RunIntegrationTestsThoroughlyForAzure
 task unit -depends RunAllUnitTests
 task quick -depends QuickRebuild
 

@@ -45,11 +45,11 @@ properties {
     $roundhouse_output_dir = "$roundhouse_dir\output"
     $roundhouse_exe_path = "$roundhouse_dir\rh.exe"
     $roundhouse_local_backup_folder = "$base_dir\database_backups"
-    
-	$octopus_API_URL = if ($env:octopus_API_URL) { $env:octopus_API_URL } else { "http://deploy.techshare.cuc.org:81/api" }
-	$octopus_API_key = if ($env:octopus_API_key) { $env:octopus_API_key } else { "API-PZ60V3TESYDTBFYHXVOVGJIDQC" } 
+	
 	$octopus_nuget_repo = "c:\Nugets"
-	$octopus_Publish_URL = if ($env:octopus_API_URL) { $env:octopus_API_URL } else { "http://deploy.techshare.cuc.org:81/nuget/packages" }
+	$octopus_API_URL = if ($env:octopus_API_URL) { $env:octopus_API_URL } else { "http://40.117.37.170:81/api" }
+	$octopus_API_key = if ($env:octopus_API_key) { $env:octopus_API_key } else { "API-MSFWYNHBFXJXBNJJW3KB4H6W0" } 
+	$octopus_Publish_URL = if ($env:octopus_API_URL) { $env:octopus_API_URL } else { "http://40.117.37.170:81/nuget/packages" }
 
     $all_database_info = @{
         "$grid3_db_name"="$grid3_db_scripts_dir"

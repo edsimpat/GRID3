@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <UserSecretsId>aspnet-UI-CAF0D0D3-0D8E-403B-815D-290D89599704</UserSecretsId>
-    <RootNamespace>SimpatTech.Sandbox.UI</RootNamespace>
+    <RootNamespace>GlobalResale.GRID3.Web</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

@@ -80,7 +80,7 @@ task help {
 
 task InitialPrivateBuild -depends SetDebugBuild, Clean, Compile, RunAllTestsThoroughly, WarnSlowBuild
 task DeveloperBuild -depends SetDebugBuild, Clean, Compile, RunAllTestsQuickly
-task IntegrationBuild -depends CommonAssemblyInfo, Clean, Compile, PublishApiAndWebProjects, CreateOctopusPackage, CreateOctopusRelease
+task IntegrationBuild -depends CommonAssemblyInfo, Clean, Compile, RunAllTestsThoroughly, PublishApiAndWebProjects, CreateOctopusPackage, CreateOctopusRelease
 task QuickRebuild -depends SetDebugBuild, Clean, Compile, UpdateAllDatabases
 
 task SetDebugBuild {
@@ -237,18 +237,19 @@ function Run_tests([string]$pattern) {
 }
 
 function Update_test_config() {
-	Get-ChildItem -Path $test_dir *IntegrationTests*.dll.config | foreach-object { Xml_Poke $_ "/configuration/connectionStrings/add[@name='AppConnString']/@connectionString" $connStr }
+	Get-ChildItem -Path $test_dir appsettings.json | Foreach-object { Json_Poke $_ "DefaultConnection" $connStr }
 }
 
-function Xml_Poke($file, $xpath, $value) {
+function Json_Poke($file, $property, $value) {
     $filePath = $file.FullName
-
-    [xml] $fileXml = Get-Content $filePath
-    $node = $fileXml.SelectSingleNode($xpath)
-    if ($node) {
-        $node.Value = $value
-
-        $fileXml.Save($filePath)
+	[string] $fileJson = Get-Content $filePath
+	$fileJsonObj = ConvertFrom-Json -InputObject $fileJson
+	$connectionStrings = $fileJsonObj.ConnectionStrings
+    if ($connectionStrings) {
+		$connectionStrings.DefaultConnection = $value
+		$fileJson = ConvertTo-Json -InputObject $fileJsonObj
+		Set-Content -Path $file.FullName -Value $fileJson
+		Write-Host $fileJson
     }
 }
 function global:Delete_file($file) {

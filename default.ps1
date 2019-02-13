@@ -80,7 +80,7 @@ task help {
 
 task InitialPrivateBuild -depends SetDebugBuild, Clean, Compile, RebuildAllDatabases, RunAllTestsThoroughly, WarnSlowBuild
 task DeveloperBuild -depends SetDebugBuild, Clean, Compile, RunAllTestsQuickly
-task IntegrationBuild -depends CommonAssemblyInfo, Clean, Compile, UpdateAllDatabases, RunAllTestsQuickly, PublishApiAndWebProjects, CreateOctopusPackage, CreateOctopusRelease
+task IntegrationBuild -depends CommonAssemblyInfo, Clean, Compile, <#UpdateAllDatabases,#> RunAllTestsQuickly, PublishApiAndWebProjects, CreateOctopusPackage, CreateOctopusRelease
 task QuickRebuild -depends SetDebugBuild, Clean, Compile, UpdateAllDatabases
 
 task SetDebugBuild {

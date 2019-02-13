@@ -78,9 +78,9 @@ task help {
 	exit 0
 }
 
-task InitialPrivateBuild -depends SetDebugBuild, Clean, Compile, RunAllTestsThoroughly, WarnSlowBuild
+task InitialPrivateBuild -depends SetDebugBuild, Clean, Compile, RebuildAllDatabases, RunAllTestsThoroughly, WarnSlowBuild
 task DeveloperBuild -depends SetDebugBuild, Clean, Compile, RunAllTestsQuickly
-task IntegrationBuild -depends CommonAssemblyInfo, Clean, Compile, RunAllTestsThoroughly, PublishApiAndWebProjects, CreateOctopusPackage, CreateOctopusRelease
+task IntegrationBuild -depends CommonAssemblyInfo, Clean, Compile, UpdateAllDatabases, RunAllTestsQuickly, PublishApiAndWebProjects, CreateOctopusPackage, CreateOctopusRelease
 task QuickRebuild -depends SetDebugBuild, Clean, Compile, UpdateAllDatabases
 
 task SetDebugBuild {
@@ -109,13 +109,13 @@ task CopyAssembliesForTest -Depends Compile {
     Copy_all_assemblies_for_test $test_dir
 }
 
-task RunAllTestsThoroughly -Depends RebuildAllDatabases, CopyAssembliesForTest  {
+task RunAllTestsThoroughly -Depends <#RebuildAllDatabases,#> CopyAssembliesForTest  {
     Update_test_config
 	$test_assembly_patterns_integration | ForEach-Object{ Run_tests $_ }
 	$test_assembly_patterns_unit | ForEach-Object{ Run_tests $_ }
 }
 
-task RunAllTestsQuickly -Depends UpdateAllDatabases, CopyAssembliesForTest {
+task RunAllTestsQuickly -Depends <#UpdateAllDatabases,#> CopyAssembliesForTest {
     Update_test_config
 	$test_assembly_patterns_integration | ForEach-Object{ Run_tests $_ }
 	$test_assembly_patterns_unit | ForEach-Object{ Run_tests $_ }

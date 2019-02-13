@@ -31,8 +31,6 @@ properties {
 	
 	$test_assembly_patterns_unit = @("*UnitTests.dll")
 	$test_assembly_patterns_integration = @("*IntegrationTests.dll")
-    $test_assembly_to_exclude = "IntegrationTests.Common.dll"
-	$test_assembly_patterns_full = @("*FullSystemTests.dll")
 
     $grid3_db_name = if ($env:db_name) { $env:db_name } else { "GRID3" }
     $grid3_db_scripts_dir = "$source_dir\DatabaseMigration\Databases\GRID3"
@@ -47,7 +45,7 @@ properties {
 	$octopus_nuget_repo = "c:\Nugets"
 	$octopus_API_URL = if ($env:octopus_API_URL) { $env:octopus_API_URL } else { "http://localhost:81/api" }
 	$octopus_API_key = if ($env:octopus_API_key) { $env:octopus_API_key } else { "API-MSFWYNHBFXJXBNJJW3KB4H6W0" } 
-	$octopus_Publish_URL = if ($env:octopus_API_URL) { $env:octopus_API_URL } else { "http://localhost:81/nuget/packages" }
+	$octopus_Publish_URL = if ($env:octopus_Publish_URL) { $env:octopus_Publish_URL } else { "http://localhost:81/nuget/packages" }
 
     $all_database_info = @{
         "$grid3_db_name"="$grid3_db_scripts_dir"
@@ -80,46 +78,47 @@ task help {
 	exit 0
 }
 
-task InitialPrivateBuild -depends Clean, Compile, RebuildAllDatabases, RunIntegrationTestsThoroughly, WarnSlowBuild
-task DeveloperBuild -depends SetDebugBuild, Clean, Compile, UpdateAllDatabases
-task IntegrationBuild -depends SetReleaseBuild, CommonAssemblyInfo, Clean, Compile, PublishApiAndWebProjects, CreateOctopusRelease
+task InitialPrivateBuild -depends SetDebugBuild, Clean, Compile, RunAllTestsThoroughly, WarnSlowBuild
+task DeveloperBuild -depends SetDebugBuild, Clean, Compile, RunAllTestsQuickly
+task IntegrationBuild -depends CommonAssemblyInfo, Clean, Compile, PublishApiAndWebProjects, CreateOctopusPackage, CreateOctopusRelease
 task QuickRebuild -depends SetDebugBuild, Clean, Compile, UpdateAllDatabases
 
 task SetDebugBuild {
     $script:project_config = "Debug"
 }
 
-task SetReleaseBuild {
-    $script:project_config = "Release"
-}
-
 task RebuildAllDatabases {
-    $all_database_info.GetEnumerator() | ForEach-Object{ 
+    $all_database_info.GetEnumerator() | ForEach-Object{
 		Write-Host $_.Key
-		deploy_database "Rebuild" $db_server $_.Key $_.Value
+		Deploy_database "Rebuild" $db_server $_.Key $_.Value
 	}
 }
 
 task UpdateAllDatabases {
-    $all_database_info.GetEnumerator() | ForEach-Object{ deploy_database "Update" $db_server $_.Key $_.Value}
+    $all_database_info.GetEnumerator() | ForEach-Object{
+		Write-Host $_.Key
+		Deploy_database "Update" $db_server $_.Key $_.Value
+	}
 }
 
 task CommonAssemblyInfo {
-    create_SharedAssemblyInfo_class "$ReleaseNumber" $project_name "$source_dir\SharedAssemblyInfo.cs"
+    Create_SharedAssemblyInfo_class "$ReleaseNumber" $project_name "$source_dir\SharedAssemblyInfo.cs"
 }
 
 task CopyAssembliesForTest -Depends Compile {
-    copy_all_assemblies_for_test $test_dir
+    Copy_all_assemblies_for_test $test_dir
 }
 
-task RunIntegrationTestsThoroughly -Depends CopyAssembliesForTest, RebuildAllDatabases {
-    update_test_config
-    $test_assembly_patterns_integration | ForEach-Object{ run_tests $_ }
+task RunAllTestsThoroughly -Depends RebuildAllDatabases, CopyAssembliesForTest  {
+    Update_test_config
+	$test_assembly_patterns_integration | ForEach-Object{ Run_tests $_ }
+	$test_assembly_patterns_unit | ForEach-Object{ Run_tests $_ }
 }
 
-task RunIntegrationTestsQuickly -Depends CopyAssembliesForTest, UpdateAllDatabases {
-    update_test_config
-    $test_assembly_patterns_integration | ForEach-Object{ run_tests $_ }
+task RunAllTestsQuickly -Depends UpdateAllDatabases, CopyAssembliesForTest {
+    Update_test_config
+	$test_assembly_patterns_integration | ForEach-Object{ Run_tests $_ }
+	$test_assembly_patterns_unit | ForEach-Object{ Run_tests $_ }
 }
 
 task Compile -depends Clean, CommonAssemblyInfo { 
@@ -128,12 +127,12 @@ task Compile -depends Clean, CommonAssemblyInfo {
 }
 
 task Clean {
-	delete_directory $publish_dir
-	delete_directory $build_dir
-	create_directory $publish_dir
-	create_directory $package_dir
-    create_directory $test_dir 
-	create_directory $result_dir
+	Delete_directory $publish_dir
+	Delete_directory $build_dir
+	Create_directory $publish_dir
+	Create_directory $package_dir
+    Create_directory $test_dir 
+	Create_directory $result_dir
 
 	Write-Host $source_dir
 	Write-Host $project_name.sln
@@ -146,8 +145,13 @@ task PublishApiAndWebProjects{
     exec { dotnet publish $source_dir\$project_name.Api\$project_name.Api.csproj --configuration $project_config --output "$publish_dir\Api" }
 }
 
+task CreateOctopusPackage {
+	exec { tools\octotools\octo.exe pack --id="grid3devweb" --format="Zip" --version=$ReleaseNumber --outFolder=$octopus_nuget_repo --basePath "$publish_dir\Web" --overwrite}
+	exec { tools\octotools\octo.exe pack --id="grid3devapi" --format="Zip" --version=$ReleaseNumber --outFolder=$octopus_nuget_repo --basePath "$publish_dir\Api" --overwrite}
+}
+
 task CreateOctopusRelease {
-	exec { tools\octotools\octo.exe create-release --project=$OctopusProjectName --server=$octopus_API_URL --apiKey=$octopus_API_key --packageversion=$ReleaseNumber --version=$ReleaseNumber}
+	exec { tools\octotools\octo.exe create-release --project=$OctopusProjectName --server=$octopus_API_URL --apiKey=$octopus_API_key --packagesFolder $octopus_nuget_repo --packageversion=$ReleaseNumber --version=$ReleaseNumber}
 }
 
 task WarnSlowBuild {
@@ -195,7 +199,7 @@ function Write-Help-For-Alias($alias,$description) {
 # -------------------------------------------------------------------------------------------------------------
 # generalized functions 
 # -------------------------------------------------------------------------------------------------------------
-function deploy_database($action,$server,$db_name,$scripts_dir,$env) {
+function Deploy_database($action,$server,$db_name,$scripts_dir,$env) {
     if (!$env) {
         $env = "LOCAL"
         Write-Host "RoundhousE environment variable is not specified... defaulting to 'LOCAL'"
@@ -215,37 +219,28 @@ function deploy_database($action,$server,$db_name,$scripts_dir,$env) {
     
 	$build_scripts_target = $scripts_dir
 
-	try {
-		# Run roundhouse commands on $build_scripts_target
-		if ($action -eq "Update"){
-			exec { &$roundhouse_exe_path -s $server -d "$db_name"  --commandtimeout=300 -f $build_scripts_target --env $env --silent -o $roundhouse_output_dir --transaction }
-		}
+	# Run roundhouse commands on $build_scripts_target
+	if ($action -eq "Update"){
+		exec { &$roundhouse_exe_path -s $server -d "$db_name"  --commandtimeout=300 -f $build_scripts_target --env $env --silent -o $roundhouse_output_dir --transaction }
+	}
 
-		if ($action -eq "Rebuild"){
-            exec { &$roundhouse_exe_path -s $server -d "$db_name" --commandtimeout=300 --env $env --silent -drop -o $roundhouse_output_dir }
-            exec { &$roundhouse_exe_path -s $server -d "$db_name" --commandtimeout=300 -f $build_scripts_target -env $env --silent --simple -o $roundhouse_output_dir }
-		}
-
-	} finally {
-		if($script:datascripts)
-		{
-			# Delete $build_scripts_target directory
-			Remove-Item $build_scripts_target -recurse
-		}
+	if ($action -eq "Rebuild"){
+		exec { &$roundhouse_exe_path -s $server -d "$db_name" --commandtimeout=300 --env $env --silent -drop -o $roundhouse_output_dir }
+		exec { &$roundhouse_exe_path -s $server -d "$db_name" --commandtimeout=300 -f $build_scripts_target -env $env --silent --simple -o $roundhouse_output_dir }
 	}
 }
 
-function run_tests([string]$pattern) {
+function Run_tests([string]$pattern) {
     
     $items = Get-ChildItem -Path $test_dir $pattern
-    $items | ForEach-Object{ run_xunit $_.Name }
+    $items | ForEach-Object{ Run_xunit $_.Name }
 }
 
-function update_test_config() {
-	Get-ChildItem -Path $test_dir *IntegrationTests*.dll.config | Where-Object {$_.Name -NotMatch $test_assembly_to_exclude} | foreach-object { xmlPoke $_ "/configuration/connectionStrings/add[@name='AppConnString']/@connectionString" $connStr }
+function Update_test_config() {
+	Get-ChildItem -Path $test_dir *IntegrationTests*.dll.config | foreach-object { Xml_Poke $_ "/configuration/connectionStrings/add[@name='AppConnString']/@connectionString" $connStr }
 }
 
-function xmlPoke($file, $xpath, $value) {
+function Xml_Poke($file, $xpath, $value) {
     $filePath = $file.FullName
 
     [xml] $fileXml = Get-Content $filePath
@@ -256,40 +251,40 @@ function xmlPoke($file, $xpath, $value) {
         $fileXml.Save($filePath)
     }
 }
-function global:delete_file($file) {
-    if($file) { remove-item $file -force -ErrorAction SilentlyContinue | out-null } 
+function global:Delete_file($file) {
+    if($file) { Remove-item $file -force -ErrorAction SilentlyContinue | out-null } 
 }
 
-function global:delete_directory($directory_name) {
-  Remove-Item $directory_name -recurse -force  -ErrorAction SilentlyContinue | out-null
+function global:Delete_directory($directory_name) {
+	if($file) { Remove-Item $directory_name -recurse -force  -ErrorAction SilentlyContinue | out-null }
 }
 
-function global:create_directory($directory_name) {
+function global:Create_directory($directory_name) {
   mkdir $directory_name  -ErrorAction SilentlyContinue  | out-null
 }
 
-function global:run_xunit ($test_assembly) {
+function global:Run_xunit ($test_assembly) {
 	$assembly_to_test = $test_dir + "\" + $test_assembly
 	$results_output = $result_dir + "\" + $test_assembly + ".xml"
     write-host "Running XUnit Tests in: " $test_assembly
-    exec { dotnet vstest --tests $assembly_to_test /logger:trx $results_output }
+    exec { dotnet vstest $assembly_to_test }
 }
 
 function global:Copy_and_flatten ($source,$include,$dest) {
 	Get-ChildItem $source -include $include -r | Copy-Item -dest $dest
 }
 
-function global:copy_all_assemblies_for_test($destination){
-	$bin_dir_match_pattern = "$source_dir\**\bin\$project_config"
-	create_directory $destination
-	Copy_and_flatten $bin_dir_match_pattern @("*.exe","*.dll","*.config","*.pdb","*.sql","*.xlsx","*.csv") $destination
+function global:Copy_all_assemblies_for_test($destination){
+	$bin_dir_match_pattern = "$source_dir\TestProjects\**\bin\$project_config"
+	Create_directory $destination
+	Copy_and_flatten $bin_dir_match_pattern @("*.exe","*.dll","*.config","*.pdb","*.sql","*.xlsx","*.csv","*.json") $destination
 
 	$dictionaryDestination = "$destination\Dictionary"
-	create_directory $dictionaryDestination
+	Create_directory $dictionaryDestination
 	Copy_and_flatten $bin_dir_match_pattern @("*.aff", "*.dic") $dictionaryDestination
 }
 
-function global:create_SharedAssemblyInfo_class($version,$applicationName,$filename) {
+function global:Create_SharedAssemblyInfo_class($version,$applicationName,$filename) {
 "using System.Reflection;
 
 // Version information for an assembly consists of the following four values:

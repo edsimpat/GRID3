@@ -19,4 +19,10 @@
     <ProjectReference Include="..\..\GlobalResale.GRID3.Api\GlobalResale.GRID3.Api.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

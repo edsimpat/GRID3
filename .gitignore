@@ -19,6 +19,7 @@ project.lock.json
 [Bb]uild[Aa]rtifacts/
 [Dd]ebug/
 [Dd]ebugPublic/
+[Pp]ublish/
 [Rr]elease/
 [Rr]eleases/
 x64/
@@ -33,3 +34,4 @@ msbuild.wrn
 
 # Visual Studio 2015
 .vs/
+SharedAssemblyInfo.cs

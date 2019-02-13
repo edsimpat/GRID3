@@ -146,8 +146,11 @@ task PublishApiAndWebProjects{
 }
 
 task CreateOctopusPackage {
-	exec { tools\octotools\octo.exe pack --id="grid3devweb" --format="Zip" --version=$ReleaseNumber --outFolder=$octopus_nuget_repo --basePath "$publish_dir\Web" --overwrite}
-	exec { tools\octotools\octo.exe pack --id="grid3devapi" --format="Zip" --version=$ReleaseNumber --outFolder=$octopus_nuget_repo --basePath "$publish_dir\Api" --overwrite}
+	$webVersion = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$publish_dir\Web\GlobalResale.GRID3.Web.dll").FileVersion 
+	$apiVersion = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$publish_dir\Api\GlobalResale.GRID3.Api.dll").FileVersion
+
+	exec { tools\octotools\octo.exe pack --id="grid3devweb" --format="Zip" --version=$webVersion --outFolder=$octopus_nuget_repo --basePath "$publish_dir\Web" --overwrite}
+	exec { tools\octotools\octo.exe pack --id="grid3devapi" --format="Zip" --version=$apiVersion --outFolder=$octopus_nuget_repo --basePath "$publish_dir\Api" --overwrite}
 }
 
 task CreateOctopusRelease {
